@@ -1,0 +1,20 @@
+{
+    "name": "Gym Reminder",
+    "short_name": "Gym",
+    "description": "Tägliche Gym-Erinnerung mit Motivations-Benachrichtigungen.",
+    "lang": "de",
+    "start_url": "./",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#0b0f16",
+    "theme_color": "#0b0f16",
+    "icons": [
+        {
+            "src": "icons/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}

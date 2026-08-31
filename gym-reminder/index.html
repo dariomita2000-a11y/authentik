@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <title>Gym Reminder</title>
+        <meta name="description" content="Tägliche Gym-Erinnerung mit Motivations-Benachrichtigungen." />
+        <meta name="theme-color" content="#0d1117" />
+        <link rel="manifest" href="manifest.webmanifest" />
+        <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="icons/icon.svg" />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <main class="app">
+            <header class="hero">
+                <p class="hero__kicker">Heute ist Trainingstag</p>
+                <h1 class="hero__title">Gym Reminder</h1>
+                <div class="streak" aria-live="polite">
+                    <span class="streak__flame" aria-hidden="true">🔥</span>
+                    <span class="streak__count" id="streak-count">0</span>
+                    <span class="streak__label" id="streak-label">Tage in Folge</span>
+                </div>
+                <ol class="week" id="week" aria-label="Letzte sieben Tage"></ol>
+            </header>
+
+            <section class="card card--action">
+                <button class="checkin" id="checkin" type="button">
+                    <span class="checkin__icon" aria-hidden="true">💪</span>
+                    <span class="checkin__text" id="checkin-text">Ich war heute im Gym</span>
+                </button>
+                <button class="link-button" id="undo-checkin" type="button" hidden>
+                    Eintrag für heute zurücknehmen
+                </button>
+            </section>
+
+            <section class="card card--quote">
+                <h2 class="card__title">Motivation</h2>
+                <blockquote class="quote" id="quote" aria-live="polite">…</blockquote>
+                <button class="link-button" id="new-quote" type="button">Neuer Spruch</button>
+            </section>
+
+            <section class="card">
+                <h2 class="card__title">Benachrichtigungen</h2>
+                <p class="status" id="permission-status">Status wird geprüft …</p>
+                <button class="button" id="enable-notifications" type="button">
+                    Benachrichtigungen erlauben
+                </button>
+                <button class="link-button" id="test-notification" type="button">
+                    Test-Benachrichtigung senden
+                </button>
+            </section>
+
+            <section class="card">
+                <h2 class="card__title">Einstellungen</h2>
+
+                <div class="field">
+                    <label class="field__label" for="reminder-time">Erinnerung um</label>
+                    <input class="field__input" type="time" id="reminder-time" value="18:00" />
+                </div>
+
+                <fieldset class="field field--days">
+                    <legend class="field__label">Trainingstage</legend>
+                    <div class="days" id="days"></div>
+                </fieldset>
+
+                <div class="field">
+                    <label class="field__label" for="motivation-interval">Motivationssprüche</label>
+                    <select class="field__input" id="motivation-interval">
+                        <option value="0">Aus</option>
+                        <option value="2">alle 2 Stunden</option>
+                        <option value="4" selected>alle 4 Stunden</option>
+                        <option value="6">alle 6 Stunden</option>
+                        <option value="12">alle 12 Stunden</option>
+                        <option value="24">einmal täglich</option>
+                    </select>
+                </div>
+
+                <div class="field field--inline">
+                    <label class="field__label" for="quiet-hours">Nachtruhe (22–7 Uhr) einhalten</label>
+                    <input type="checkbox" id="quiet-hours" checked />
+                </div>
+
+                <p class="hint" id="next-reminder"></p>
+            </section>
+
+            <footer class="footer">
+                <p>
+                    Damit Erinnerungen zuverlässig kommen, sollte die App als PWA installiert und
+                    im Hintergrund geöffnet bleiben. Details stehen in der
+                    <code>README.md</code>.
+                </p>
+            </footer>
+        </main>
+
+        <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+        <script src="quotes.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>

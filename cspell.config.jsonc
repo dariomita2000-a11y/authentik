@@ -296,6 +296,7 @@
         "./locale", // Locale files (Django, CSpell)
         "web/xliff", // XLIFF translation files
         "web/src/locales", // Generated TypeScript locale
+        "./gym-reminder", // Standalone German-language app
         //#endregion
         //#region Monorepo
         "CODEOWNERS", // GitHub code owners file
