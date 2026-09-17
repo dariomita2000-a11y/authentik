@@ -21,7 +21,6 @@
                     <span class="streak__count" id="streak-count">0</span>
                     <span class="streak__label" id="streak-label">Tage in Folge</span>
                 </div>
-                <ol class="week" id="week" aria-label="Letzte sieben Tage"></ol>
             </header>
 
             <section class="card card--action">
@@ -36,8 +35,37 @@
 
             <section class="card card--quote">
                 <h2 class="card__title">Motivation</h2>
-                <blockquote class="quote" id="quote" aria-live="polite">…</blockquote>
+                <button
+                    class="quote-toggle"
+                    id="quote-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="why"
+                >
+                    <blockquote class="quote" id="quote" aria-live="polite">…</blockquote>
+                    <span class="quote-hint">Warum das funktioniert</span>
+                </button>
+                <div class="why" id="why" hidden><p id="why-text"></p></div>
                 <button class="link-button" id="new-quote" type="button">Neuer Spruch</button>
+            </section>
+
+            <section class="card">
+                <div class="calendar__head">
+                    <button class="calendar__nav" id="cal-prev" type="button" aria-label="Vorheriger Monat">
+                        ‹
+                    </button>
+                    <h2 class="calendar__month" id="cal-month" aria-live="polite"></h2>
+                    <button class="calendar__nav" id="cal-next" type="button" aria-label="Nächster Monat">
+                        ›
+                    </button>
+                </div>
+                <div class="calendar__grid" id="cal-grid"></div>
+                <div class="calendar__legend">
+                    <span class="chip chip--done">Trainiert</span>
+                    <span class="chip chip--missed">Verpasst</span>
+                    <span class="chip chip--rest">Kein Trainingstag</span>
+                </div>
+                <p class="hint" id="cal-summary"></p>
             </section>
 
             <section class="card">
@@ -86,8 +114,9 @@
 
             <footer class="footer">
                 <p>
-                    Damit Erinnerungen zuverlässig kommen, sollte die App als PWA installiert und
-                    im Hintergrund geöffnet bleiben. Details stehen in der
+                    Tippe im Kalender auf einen vergangenen Tag, um ihn nachzutragen oder zu
+                    streichen. Damit Erinnerungen zuverlässig kommen, sollte die App als PWA
+                    installiert und im Hintergrund geöffnet bleiben — Details stehen in der
                     <code>README.md</code>.
                 </p>
             </footer>

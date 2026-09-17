@@ -17,6 +17,12 @@
     box-sizing: border-box;
 }
 
+/* Muss die `display`-Regeln der Komponenten schlagen, sonst bleiben mit
+   `hidden` markierte Elemente sichtbar. */
+[hidden] {
+    display: none !important;
+}
+
 body {
     margin: 0;
     background:
@@ -93,45 +99,153 @@ body {
     font-size: 0.95rem;
 }
 
-.week {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.4rem;
-    list-style: none;
-    margin: 1.25rem 0 0;
-    padding: 0;
+/* ------------------------------------------------------------------ Kalender */
+
+.calendar__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
 }
 
-.week__day {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
+.calendar__month {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.calendar__nav {
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-elevated-2);
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.calendar__nav:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.calendar__nav:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+.calendar__weekday {
+    text-align: center;
+    padding-bottom: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--text-muted);
 }
 
-.week__dot {
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    background: var(--bg-elevated);
+.calendar__day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-elevated-2);
+    color: var(--text-muted);
+    font: inherit;
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
 }
 
-.week__day--done .week__dot {
+.calendar__day--empty {
+    border: none;
+    background: none;
+    cursor: default;
+}
+
+.calendar__day--rest {
+    border-style: dashed;
+    opacity: 0.55;
+}
+
+.calendar__day--missed {
+    color: var(--text);
+    background: repeating-linear-gradient(-45deg, transparent 0 4px, var(--border) 4px 5px);
+}
+
+.calendar__day--done {
+    background: var(--success);
+    border-color: var(--success);
+    color: #04220f;
+    font-weight: 700;
+}
+
+.calendar__day--future {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.calendar__day--today {
+    border-color: var(--accent);
+    border-width: 2.5px;
+    color: var(--text);
+}
+
+.calendar__day--done.calendar__day--today {
+    color: #04220f;
+}
+
+.calendar__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chip::before {
+    content: "";
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-elevated-2);
+}
+
+.chip--done::before {
     background: var(--success);
     border-color: var(--success);
 }
 
-.week__day--missed .week__dot {
-    border-color: var(--danger);
-    border-style: dashed;
+.chip--missed::before {
+    background: repeating-linear-gradient(-45deg, transparent 0 3px, var(--border) 3px 4px);
 }
 
-.week__day--today .week__label {
-    color: var(--accent);
-    font-weight: 700;
+.chip--rest::before {
+    border-style: dashed;
 }
 
 /* --------------------------------------------------------------------- Karten */
@@ -199,6 +313,18 @@ body {
     font-size: 1.3rem;
 }
 
+.quote-toggle {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
 .quote {
     margin: 0;
     font-size: 1.1rem;
@@ -206,6 +332,42 @@ body {
     font-weight: 500;
     border-left: 3px solid var(--accent);
     padding-left: 0.9rem;
+}
+
+.quote-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.8rem;
+    padding-left: 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.quote-hint::after {
+    content: "▾";
+    font-size: 0.85rem;
+    transition: transform 0.18s ease;
+}
+
+.quote-toggle[aria-expanded="true"] .quote-hint::after {
+    transform: rotate(180deg);
+}
+
+.why {
+    margin-top: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    background: var(--bg-elevated-2);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.why p {
+    margin: 0;
 }
 
 .card--quote .link-button {

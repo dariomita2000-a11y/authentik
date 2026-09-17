@@ -34,12 +34,16 @@ DAY_NAMES = ["mo", "di", "mi", "do", "fr", "sa", "so"]
 
 
 def load_quotes() -> list[str]:
-    """Liest die Sprüche aus dem Array in ``quotes.js``."""
+    """Liest die ``text``-Felder aus dem Array in ``quotes.js``.
+
+    Die Begründungen (``why``) bleiben außen vor — eine Benachrichtigung soll
+    kurz sein.
+    """
     source = QUOTES_FILE.read_text(encoding="utf-8")
-    array = re.search(r"GYM_QUOTES\s*=\s*\[(.*?)\];", source, re.DOTALL)
+    array = re.search(r"GYM_QUOTES\s*=\s*\[(.*?)\n    \];", source, re.DOTALL)
     if not array:
         raise SystemExit(f"Keine Sprüche in {QUOTES_FILE} gefunden.")
-    quotes = re.findall(r'"((?:[^"\\]|\\.)*)"', array.group(1))
+    quotes = re.findall(r'text:\s*"((?:[^"\\]|\\.)*)"', array.group(1))
     if not quotes:
         raise SystemExit(f"Keine Sprüche in {QUOTES_FILE} gefunden.")
     return [quote.replace('\\"', '"') for quote in quotes]

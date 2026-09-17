@@ -34,12 +34,19 @@
     const el = {
         streakCount: document.getElementById("streak-count"),
         streakLabel: document.getElementById("streak-label"),
-        week: document.getElementById("week"),
         checkin: document.getElementById("checkin"),
         checkinText: document.getElementById("checkin-text"),
         undoCheckin: document.getElementById("undo-checkin"),
+        quoteToggle: document.getElementById("quote-toggle"),
         quote: document.getElementById("quote"),
+        why: document.getElementById("why"),
+        whyText: document.getElementById("why-text"),
         newQuote: document.getElementById("new-quote"),
+        calPrev: document.getElementById("cal-prev"),
+        calNext: document.getElementById("cal-next"),
+        calMonth: document.getElementById("cal-month"),
+        calGrid: document.getElementById("cal-grid"),
+        calSummary: document.getElementById("cal-summary"),
         permissionStatus: document.getElementById("permission-status"),
         enableNotifications: document.getElementById("enable-notifications"),
         testNotification: document.getElementById("test-notification"),
@@ -53,6 +60,8 @@
 
     let state = loadState();
     let swRegistration = null;
+    /** Der im Kalender angezeigte Monat (immer der Erste des Monats). */
+    let visibleMonth = startOfMonth(new Date());
 
     // ---------------------------------------------------------------- Zustand
 
@@ -90,6 +99,16 @@
         const copy = new Date(date);
         copy.setDate(copy.getDate() + days);
         return copy;
+    }
+
+    function startOfDay(date) {
+        const copy = new Date(date);
+        copy.setHours(0, 0, 0, 0);
+        return copy;
+    }
+
+    function startOfMonth(date) {
+        return new Date(date.getFullYear(), date.getMonth(), 1);
     }
 
     function parseTime(value) {
@@ -148,11 +167,26 @@
         return streak;
     }
 
-    function toggleCheckIn(done) {
-        const key = dateKey(new Date());
-        if (done && !state.history.includes(key)) {
-            state.history = [...state.history, key].sort();
-        } else if (!done) {
+    /** Längste Kette aufeinanderfolgender Tage in der gesamten Historie. */
+    function bestStreak() {
+        const days = [...new Set(state.history)].sort();
+        let best = 0;
+        let run = 0;
+        let previous = null;
+        for (const entry of days) {
+            const date = new Date(`${entry}T00:00:00`);
+            run = previous && (date - previous) / 86_400_000 === 1 ? run + 1 : 1;
+            best = Math.max(best, run);
+            previous = date;
+        }
+        return best;
+    }
+
+    function setCheckIn(date, done) {
+        const key = dateKey(date);
+        if (done) {
+            state.history = [...new Set([...state.history, key])].sort();
+        } else {
             state.history = state.history.filter((entry) => entry !== key);
         }
         saveState();
@@ -241,9 +275,8 @@
             if (now >= due) {
                 const late = now.getTime() - due.getTime() > REMINDER_GRACE_MS;
                 if (!late && !hasCheckIn(now)) {
-                    const quote = self.randomQuote(state.lastQuote);
-                    state.lastQuote = quote;
-                    notify("Zeit fürs Gym 🏋️", quote, "gym-reminder");
+                    showQuote(self.randomQuote(state.lastQuote));
+                    notify("Zeit fürs Gym 🏋️", state.lastQuote, "gym-reminder");
                 }
                 state.lastReminderDate = todayKey;
                 dirty = true;
@@ -259,9 +292,8 @@
                 if (isQuietTime(now)) {
                     state.nextMotivationAt = afterQuietTime(now).getTime();
                 } else {
-                    const quote = self.randomQuote(state.lastQuote);
-                    state.lastQuote = quote;
-                    notify("Motivation für dich 💪", quote, "gym-motivation");
+                    showQuote(self.randomQuote(state.lastQuote));
+                    notify("Motivation für dich 💪", state.lastQuote, "gym-motivation");
                     scheduleNextMotivation(now);
                 }
                 dirty = true;
@@ -283,8 +315,8 @@
 
     function render() {
         renderStreak();
-        renderWeek();
         renderCheckIn();
+        renderCalendar();
         renderSettings();
         renderPermission();
         renderNextReminder();
@@ -296,34 +328,103 @@
         el.streakLabel.textContent = streak === 1 ? "Tag in Folge" : "Tage in Folge";
     }
 
-    function renderWeek() {
-        el.week.innerHTML = "";
-        const today = new Date();
-        for (let offset = 6; offset >= 0; offset -= 1) {
-            const date = addDays(today, -offset);
-            const item = document.createElement("li");
-            item.className = "week__day";
-            if (hasCheckIn(date)) {
-                item.classList.add("week__day--done");
-            } else if (isTrainingDay(date) && offset > 0) {
-                item.classList.add("week__day--missed");
-            }
-            if (offset === 0) {
-                item.classList.add("week__day--today");
-            }
-            item.innerHTML = `<span class="week__label">${DAY_LABELS[date.getDay()]}</span>
-                <span class="week__dot" aria-hidden="true"></span>`;
-            item.title = `${DAY_LABELS[date.getDay()]}, ${date.toLocaleDateString("de-DE")}`;
-            el.week.append(item);
-        }
-    }
-
     function renderCheckIn() {
         const done = hasCheckIn(new Date());
         el.checkin.classList.toggle("checkin--done", done);
         el.checkinText.textContent = done ? "Erledigt — stark!" : "Ich war heute im Gym";
         el.checkin.disabled = done;
         el.undoCheckin.hidden = !done;
+    }
+
+    /** Setzt Spruch und Begründung; die Begründung bleibt eingeklappt. */
+    function showQuote(text) {
+        state.lastQuote = text;
+        el.quote.textContent = text;
+        el.whyText.textContent = self.explainQuote(text);
+        saveState();
+    }
+
+    function toggleWhy(open) {
+        const expanded = open ?? el.quoteToggle.getAttribute("aria-expanded") !== "true";
+        el.quoteToggle.setAttribute("aria-expanded", String(expanded));
+        el.why.hidden = !expanded;
+    }
+
+    function renderCalendar() {
+        const today = startOfDay(new Date());
+        const year = visibleMonth.getFullYear();
+        const month = visibleMonth.getMonth();
+
+        el.calMonth.textContent = visibleMonth.toLocaleDateString("de-DE", {
+            month: "long",
+            year: "numeric",
+        });
+        el.calNext.disabled = year === today.getFullYear() && month === today.getMonth();
+
+        el.calGrid.innerHTML = "";
+        for (const day of DAY_ORDER) {
+            const head = document.createElement("span");
+            head.className = "calendar__weekday";
+            head.textContent = DAY_LABELS[day];
+            el.calGrid.append(head);
+        }
+
+        // Montag ist die erste Spalte, `getDay()` zählt aber ab Sonntag.
+        const offset = (new Date(year, month, 1).getDay() + 6) % 7;
+        for (let index = 0; index < offset; index += 1) {
+            const filler = document.createElement("span");
+            filler.className = "calendar__day calendar__day--empty";
+            el.calGrid.append(filler);
+        }
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let trained = 0;
+        let planned = 0;
+
+        for (let dayOfMonth = 1; dayOfMonth <= daysInMonth; dayOfMonth += 1) {
+            const date = new Date(year, month, dayOfMonth);
+            const future = date > today;
+            const done = hasCheckIn(date);
+            const training = isTrainingDay(date);
+
+            const cell = document.createElement("button");
+            cell.type = "button";
+            cell.className = "calendar__day";
+            cell.textContent = String(dayOfMonth);
+
+            if (done) {
+                cell.classList.add("calendar__day--done");
+                trained += 1;
+            } else if (!training) {
+                cell.classList.add("calendar__day--rest");
+            } else if (!future) {
+                cell.classList.add("calendar__day--missed");
+            }
+            if (training && !future) {
+                planned += 1;
+            }
+            if (future) {
+                cell.classList.add("calendar__day--future");
+                cell.disabled = true;
+            }
+            if (date.getTime() === today.getTime()) {
+                cell.classList.add("calendar__day--today");
+            }
+
+            const label = date.toLocaleDateString("de-DE", { dateStyle: "full" });
+            const status = done ? "trainiert" : training ? "nicht trainiert" : "kein Trainingstag";
+            cell.title = `${label}: ${status}`;
+            cell.setAttribute("aria-label", `${label} — ${status}`);
+            cell.setAttribute("aria-pressed", String(done));
+            cell.addEventListener("click", () => setCheckIn(date, !done));
+            el.calGrid.append(cell);
+        }
+
+        const best = bestStreak();
+        const units = `${trained} ${trained === 1 ? "Einheit" : "Einheiten"} in diesem Monat`;
+        el.calSummary.textContent = planned
+            ? `${units} · ${planned} Trainingstage waren geplant · Bestwert ${best} ${best === 1 ? "Tag" : "Tage"}`
+            : units;
     }
 
     function renderSettings() {
@@ -372,7 +473,8 @@
 
     function renderNextReminder() {
         if (!state.trainingDays.length) {
-            el.nextReminder.textContent = "Kein Trainingstag ausgewählt — es kommen keine Erinnerungen.";
+            el.nextReminder.textContent =
+                "Kein Trainingstag ausgewählt — es kommen keine Erinnerungen.";
             return;
         }
         const now = new Date();
@@ -418,23 +520,30 @@
         }, 3500);
     }
 
-    function showQuote(quote) {
-        el.quote.textContent = quote;
-        state.lastQuote = quote;
-        saveState();
-    }
-
     // ------------------------------------------------------------ Verdrahtung
 
     el.checkin.addEventListener("click", () => {
-        toggleCheckIn(true);
+        setCheckIn(new Date(), true);
         showToast("Eingetragen. Serie läuft weiter.");
     });
-    el.undoCheckin.addEventListener("click", () => toggleCheckIn(false));
-    el.newQuote.addEventListener("click", () => showQuote(self.randomQuote(state.lastQuote)));
+    el.undoCheckin.addEventListener("click", () => setCheckIn(new Date(), false));
+    el.quoteToggle.addEventListener("click", () => toggleWhy());
+    el.newQuote.addEventListener("click", () => {
+        showQuote(self.randomQuote(state.lastQuote));
+        toggleWhy(false);
+    });
+    el.calPrev.addEventListener("click", () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() - 1, 1);
+        renderCalendar();
+    });
+    el.calNext.addEventListener("click", () => {
+        visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1);
+        renderCalendar();
+    });
     el.enableNotifications.addEventListener("click", requestPermission);
     el.testNotification.addEventListener("click", async () => {
-        const sent = await notify("Test 🔔", self.randomQuote(state.lastQuote), "gym-test");
+        showQuote(self.randomQuote(state.lastQuote));
+        const sent = await notify("Test 🔔", state.lastQuote, "gym-test");
         showToast(sent ? "Test-Benachrichtigung gesendet." : "Benachrichtigung konnte nicht gesendet werden.");
     });
 
@@ -488,7 +597,12 @@
         }
     }
 
-    showQuote(state.lastQuote || self.randomQuote(null));
+    // Ein gespeicherter Spruch ohne Begründung stammt aus einer älteren Liste.
+    showQuote(
+        state.lastQuote && self.explainQuote(state.lastQuote)
+            ? state.lastQuote
+            : self.randomQuote(null),
+    );
     render();
     // Erst registrieren, dann den ersten Termin prüfen: sonst müsste eine
     // fällige Erinnerung ohne aktiven Service Worker verschickt werden.

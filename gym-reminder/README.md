@@ -34,6 +34,14 @@ Der große Button trägt das heutige Training ein und hält die Serie (🔥) am
 Leben. Alles liegt lokal im Browser (`localStorage`); es gibt keinen Server und
 keine Konten.
 
+**Kalender:** Der Monatskalender zeigt grün, an welchen Tagen du trainiert
+hast, schraffiert die verpassten Trainingstage und gestrichelt die Tage, die
+gar keine Trainingstage sind. Ein Tipp auf einen vergangenen Tag trägt ihn nach
+oder streicht ihn wieder; mit ‹ und › blätterst du durch die Monate.
+
+**Sprüche mit Begründung:** Ein Tipp auf den Spruch klappt auf, warum er
+funktioniert — statt nur einen Satz zu lesen, siehst du, was dahintersteckt.
+
 ### Auf dem Handy installieren
 
 Damit die App als eigenständiges Icon läuft, muss sie über HTTPS erreichbar
@@ -75,8 +83,10 @@ Dauerhaft im Hintergrund: als `launchd`-Agent (macOS), `systemd --user`-Service
 
 ## Sprüche anpassen
 
-Alle Texte stehen in `quotes.js` im Array `GYM_QUOTES`. Ergänzen, speichern,
-Seite neu laden — das Desktop-Skript liest dieselbe Datei.
+Alle Texte stehen in `quotes.js` im Array `GYM_QUOTES`. Jeder Eintrag hat zwei
+Felder: `text` ist der Spruch, `why` die Begründung, die in der App aufklappt.
+Ergänzen, speichern, Seite neu laden — das Desktop-Skript liest dieselbe Datei
+und nutzt daraus nur `text`.
 
 ## Dateien
 
