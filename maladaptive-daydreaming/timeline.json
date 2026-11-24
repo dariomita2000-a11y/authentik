@@ -1,0 +1,223 @@
+{
+ "cues": {
+  "duration": 171.28,
+  "fantasy_start": 17.492,
+  "fantasy_peak": 62.175,
+  "song_end": 84.225,
+  "headphones_off": 87.639,
+  "outro_start": 102.829,
+  "final_note": 164.189
+ },
+ "sentences": [
+  {
+   "text": "Du machst Musik an.",
+   "start": 1.5,
+   "end": 2.659
+  },
+  {
+   "text": "Du setzt deine Kopfhörer auf.",
+   "start": 3.59,
+   "end": 5.208
+  },
+  {
+   "text": "Und plötzlich fängst du an, durch dein Zimmer zu laufen.",
+   "start": 5.974,
+   "end": 8.577
+  },
+  {
+   "text": "Immer wieder dieselben Wege.",
+   "start": 9.109,
+   "end": 10.581
+  },
+  {
+   "text": "Hin… und her.",
+   "start": 11.057,
+   "end": 12.278
+  },
+  {
+   "text": "Aber während du dort läufst, bist du längst nicht mehr wirklich dort.",
+   "start": 12.993,
+   "end": 16.469
+  },
+  {
+   "text": "In deinem Kopf beginnt etwas anderes.",
+   "start": 17.492,
+   "end": 19.614
+  },
+  {
+   "text": "Du stellst dir vor, ein ganz anderes Leben zu führen.",
+   "start": 21.145,
+   "end": 24.153
+  },
+  {
+   "text": "Vielleicht sitzt du in einem teuren Auto.",
+   "start": 25.133,
+   "end": 27.143
+  },
+  {
+   "text": "Menschen sehen dich an.",
+   "start": 27.566,
+   "end": 28.742
+  },
+  {
+   "text": "Menschen, die dich früher vielleicht nicht einmal beachtet haben.",
+   "start": 29.431,
+   "end": 32.373
+  },
+  {
+   "text": "Du stellst dir vor, ihnen irgendwann wieder gegenüberzustehen.",
+   "start": 32.963,
+   "end": 36.233
+  },
+  {
+   "text": "Ihnen zu zeigen, was aus dir geworden ist.",
+   "start": 36.799,
+   "end": 39.026
+  },
+  {
+   "text": "Manchmal sind es Gespräche, die du niemals geführt hast.",
+   "start": 39.968,
+   "end": 42.968
+  },
+  {
+   "text": "Begegnungen, die vielleicht niemals stattfinden werden.",
+   "start": 43.385,
+   "end": 46.029
+  },
+  {
+   "text": "Oder Momente mit einem Menschen… den du eigentlich längst vermisst.",
+   "start": 46.931,
+   "end": 50.749
+  },
+  {
+   "text": "Du stellst dir vor, wie alles hätte sein können.",
+   "start": 51.679,
+   "end": 54.233
+  },
+  {
+   "text": "Wie ihr euch wieder begegnet.",
+   "start": 54.68,
+   "end": 55.985
+  },
+  {
+   "text": "Wie du Dinge sagst, für die du im echten Leben vielleicht nie die Gelegenheit bekommen hast.",
+   "start": 56.643,
+   "end": 61.228
+  },
+  {
+   "text": "Und während du durch dein Zimmer läufst, erlebst du diese Momente beinahe so, als wären sie real.",
+   "start": 62.175,
+   "end": 68.0
+  },
+  {
+   "text": "Du gestikulierst.",
+   "start": 68.602,
+   "end": 69.641
+  },
+  {
+   "text": "Du lächelst.",
+   "start": 70.241,
+   "end": 70.988
+  },
+  {
+   "text": "Manchmal bewegst du dich sogar passend zu dem, was gerade in deinem Kopf passiert.",
+   "start": 71.651,
+   "end": 76.042
+  },
+  {
+   "text": "Für einen Moment fühlt sich diese Welt echter an… als die, in der du gerade stehst.",
+   "start": 76.671,
+   "end": 81.822
+  },
+  {
+   "text": "Doch irgendwann endet das Lied.",
+   "start": 84.225,
+   "end": 86.191
+  },
+  {
+   "text": "Du nimmst deine Kopfhörer ab.",
+   "start": 87.639,
+   "end": 89.014
+  },
+  {
+   "text": "Und plötzlich bist du wieder in deinem Zimmer.",
+   "start": 92.467,
+   "end": 94.639
+  },
+  {
+   "text": "Allein.",
+   "start": 95.392,
+   "end": 95.866
+  },
+  {
+   "text": "In derselben Realität, aus der du gerade für einige Minuten verschwunden warst.",
+   "start": 97.399,
+   "end": 101.813
+  },
+  {
+   "text": "Vielleicht startest du direkt das nächste Lied.",
+   "start": 102.829,
+   "end": 105.044
+  },
+  {
+   "text": "Nicht unbedingt, weil du die Musik so sehr liebst.",
+   "start": 105.706,
+   "end": 108.05
+  },
+  {
+   "text": "Sondern weil du zurück möchtest.",
+   "start": 108.682,
+   "end": 110.694
+  },
+  {
+   "text": "Zurück in diese Welt, in der alles so sein kann, wie du es dir wünschst.",
+   "start": 111.113,
+   "end": 115.568
+  },
+  {
+   "text": "Dieses Phänomen wird häufig mit dem Begriff Maladaptive Daydreaming beschrieben.",
+   "start": 117.559,
+   "end": 122.291
+  },
+  {
+   "text": "Dabei handelt es sich um besonders intensive, immersive Tagträume, die so lebendig werden können, dass es schwerfällt, sie zu unterbrechen.",
+   "start": 122.759,
+   "end": 131.089
+  },
+  {
+   "text": "Problematisch wird es vor allem dann, wenn sie den Alltag, Beziehungen oder wichtige Aufgaben beeinträchtigen.",
+   "start": 131.71,
+   "end": 137.889
+  },
+  {
+   "text": "Aber nicht jeder, der beim Musikhören vor sich hin träumt, leidet darunter.",
+   "start": 138.547,
+   "end": 142.267
+  },
+  {
+   "text": "Und vielleicht ist das Bewegendste daran nicht einmal das, was du dir vorstellst.",
+   "start": 144.066,
+   "end": 148.511
+  },
+  {
+   "text": "Sondern das, wonach du dich sehnst.",
+   "start": 149.162,
+   "end": 151.506
+  },
+  {
+   "text": "Denn manchmal vermisst du nicht nur einen Menschen.",
+   "start": 153.041,
+   "end": 155.914
+  },
+  {
+   "text": "Manchmal vermisst du auch ein ganzes Leben, das du dir mit diesem Menschen vorgestellt hast.",
+   "start": 157.236,
+   "end": 162.156
+  },
+  {
+   "text": "Ein Leben… das niemals Wirklichkeit geworden ist.",
+   "start": 164.189,
+   "end": 167.83
+  }
+ ]
+}

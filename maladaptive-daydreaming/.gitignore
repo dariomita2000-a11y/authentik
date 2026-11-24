@@ -1,0 +1,4 @@
+build/*.mp4
+build/render.log
+audio/*.wav
+src/__pycache__/
