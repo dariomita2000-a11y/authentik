@@ -1,0 +1,88 @@
+{
+ "cues": {
+  "duration": 54.38,
+  "fantasy_start": 8.971,
+  "fantasy_peak": 23.088,
+  "song_end": 28.588,
+  "headphones_off": 28.588,
+  "outro_start": 35.239,
+  "final_note": 43.644
+ },
+ "sentences": [
+  {
+   "text": "Du machst Musik an.",
+   "start": 1.0,
+   "end": 2.219
+  },
+  {
+   "text": "Setzt deine Kopfhörer auf.",
+   "start": 3.257,
+   "end": 4.794
+  },
+  {
+   "text": "Und läufst durch dein Zimmer.",
+   "start": 5.468,
+   "end": 7.576
+  },
+  {
+   "text": "Hin… und her.",
+   "start": 7.576,
+   "end": 8.366
+  },
+  {
+   "text": "Aber in Gedanken bist du längst woanders.",
+   "start": 8.971,
+   "end": 11.919
+  },
+  {
+   "text": "Du lebst ein anderes Leben.",
+   "start": 12.496,
+   "end": 13.988
+  },
+  {
+   "text": "Menschen sehen dich an.",
+   "start": 14.652,
+   "end": 15.866
+  },
+  {
+   "text": "Du führst Gespräche, die nie stattgefunden haben… mit einem Menschen, den du vermisst.",
+   "start": 16.441,
+   "end": 22.413
+  },
+  {
+   "text": "Für einen Moment ist diese Welt echter als deine eigene.",
+   "start": 23.088,
+   "end": 26.729
+  },
+  {
+   "text": "Dann endet das Lied.",
+   "start": 28.588,
+   "end": 30.084
+  },
+  {
+   "text": "Und du stehst wieder in deinem Zimmer.",
+   "start": 30.555,
+   "end": 32.189
+  },
+  {
+   "text": "Allein.",
+   "start": 32.735,
+   "end": 33.199
+  },
+  {
+   "text": "Man nennt es Maladaptive Daydreaming.",
+   "start": 35.239,
+   "end": 37.63
+  },
+  {
+   "text": "Tagträume, so lebendig, dass sie das echte Leben verdrängen können.",
+   "start": 38.132,
+   "end": 42.252
+  },
+  {
+   "text": "Und manchmal vermisst du nicht nur einen Menschen… sondern ein ganzes Leben, das nie Wirklichkeit geworden ist.",
+   "start": 43.644,
+   "end": 51.42
+  }
+ ]
+}

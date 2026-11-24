@@ -1,0 +1,17 @@
+{
+ "lead_in": 1.0,
+ "tail": 3.0,
+ "gaps": {
+  "Für einen Moment": 0.8,
+  "Allein.": 1.0,
+  "Tagträume": 0.5
+ },
+ "cues": {
+  "fantasy_start": "Aber in Gedanken",
+  "fantasy_peak": "Für einen Moment",
+  "song_end": "Dann endet das Lied",
+  "headphones_off": "Dann endet das Lied",
+  "outro_start": "Man nennt es",
+  "final_note": "Und manchmal vermisst"
+ }
+}

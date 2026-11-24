@@ -1,6 +1,6 @@
 """Insert breathing room into the narration and produce the master timeline.
 
-usage: python timeline.py voice.mp3 align_raw.json out_voice.wav timeline.json
+usage: python timeline.py voice.mp3 align_raw.json out_voice.wav timeline.json [config.json]
 """
 
 import json
@@ -36,6 +36,10 @@ def load(path):
 
 
 def main():
+    global LEAD_IN, TAIL, GAPS
+    cfg = json.load(open(sys.argv[5], encoding="utf-8")) if len(sys.argv) > 5 else None
+    if cfg:
+        LEAD_IN, TAIL, GAPS = cfg["lead_in"], cfg["tail"], cfg["gaps"]
     voice = load(sys.argv[1])
     sents = json.load(open(sys.argv[2], encoding="utf-8"))
     pieces = [np.zeros(int(LEAD_IN * SR), np.float32)]
@@ -66,6 +70,12 @@ def main():
     def find(prefix, key="start"):
         return next(s[key] for s in out_sents if s["text"].startswith(prefix))
 
+    if cfg:
+        cues = {"duration": round(total, 3)}
+        cues.update({k: find(v) for k, v in cfg["cues"].items()})
+        json.dump({"cues": cues, "sentences": out_sents}, open(sys.argv[4], "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        print(json.dumps(cues, indent=1))
+        return
     cues = {
         "duration": round(total, 3),
         "fantasy_start": find("In deinem Kopf beginnt"),
